@@ -1,0 +1,41 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    h1 {
+        text-align: center;
+        text-decoration: underline;
+        color: rgb(41, 41, 40);
+    }
+</style>
+
+<h1>Search Results for "<%= city %>"</h1><br>
+
+<% if (listings.length === 0) { %>
+  <p class="text-center">No listings found in <%= city %>.</p>
+<% } else { %>
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+    <% listings.forEach(listing => { %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none text-dark">
+          <div class="card listing-card">
+            <img 
+              src="<%= listing.image && listing.image.url ? listing.image.url : '/images/default.jpg' %>" 
+              class="card-img-top" 
+              alt="Listing Image" 
+              style="height: 20rem; object-fit: cover;"
+              onerror="this.onerror=null; this.src='/images/default.jpg';"
+            >
+            <div class="card-body">
+              <h5 class="card-title"><%= listing.title %></h5>
+              <p class="card-text">
+                <% let formattedPrice = typeof listing.price === 'number' ? listing.price.toLocaleString('en-IN') : 'Not Available'; %>
+                Price: ₹<%= formattedPrice %>
+              </p>
+              <p class="card-text">Category: <%= listing.category %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+<% } %>

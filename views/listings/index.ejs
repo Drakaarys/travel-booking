@@ -1,0 +1,151 @@
+<% layout("/layouts/boilerplate")%>
+
+<style>
+    .filters{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .filter{
+        text-align: center;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        opacity: .7;
+    }
+    .filter:hover{
+        opacity: 1;
+    }
+    .tax-switch{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .hidden{
+        display: none;
+    }
+    a{
+        text-decoration: none; /* removes underline */
+        color: black; 
+    }
+</style>
+
+<body>
+    <!-- <h3>All Listings</h3> -->
+     <div class="filters">
+        <a href="/listings/category/Trending">
+                <div class="filter">
+                <div><i class="fa-solid fa-fire-flame-curved"></i></div>
+                <p>Trending</p>
+            </div>
+        </a>
+        
+        <a href="/listings/category/Hotel">
+            <div class="filter">
+                <div><i class="fa-solid fa-hotel"></i></div>
+                <p>Hotels</p>
+            </div>
+        </a>
+        
+        <a href="/listings/category/Mountain">
+                <div class="filter">
+                <div><i class="fa-solid fa-mountain-sun"></i></i></div>
+                <p>Mountains</p>
+            </div>
+        </a>
+        <a href="/listings/category/Beach">
+            <div class="filter">
+            <div><i class="fa-solid fa-umbrella-beach"></i></div>
+            <p>Beach</p>
+        </div>
+        </a>
+        <a href="/listings/category/Iconic cities">
+            <div class="filter">
+            <div><i class="fa-solid fa-city"></i></div>
+            <p>Iconic cities</p>
+        </div>
+        </a>
+        <a href="/listings/category/Best Views">
+            <div class="filter">
+            <div><i class="fa-solid fa-city"></i></i></div>
+            <p>Best Views</p>
+        </div>
+        </a>
+        <a href="/listings/category/Stargazing">
+            <div class="filter">
+            <div><i class="fa-regular fa-star"></i></div>
+            <p>Stargazing</p>
+        </div>
+        </a>
+        <a href="/listings/category/Snow">
+            <div class="filter">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Snow</p>
+        </div>
+        </a>
+        <a href="/listings/category/Lake">
+            <div class="filter">
+            <div><i class="fa-solid fa-water"></i></div>
+            <p>Lakes</p>
+        </div>
+        </a>
+        <a href="/listings/category/Cloud">
+            <div class="filter">
+            <div><i class="fa-regular fa-cloud"></i></div>
+            <p>Clouds</p>
+        </div>
+        </a>
+        <a href="/listings/category/World">
+            <div class="filter">
+            <div><i class="fa-solid fa-globe"></i></div>
+            <p>World</p>
+        </div>
+        </a>
+        <a href="/listings/category/Farm">
+            <div class="filter">
+            <div><i class="fa-solid fa-cow"></i></div>
+            <p>Farms</p>
+        </div>
+        </a>
+        
+        <div class="tax-switch ">
+            <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">including tax</label>
+        </div>
+     </div>
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+        <% for(let listing of allListings){%>
+            <a href="/listings/<%=listing._id%>" class="listing-link">
+                <div class="card col listing-card" >
+                    <img src="<%= listing.image || '/images/default.jpg' %>" class="card-img-top" alt="Listing Image" style="height:20rem">
+                    <div class="card-img-overlay">
+                        
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b><%= listing.title %></b><br>
+                            <% let formattedPrice = (typeof listing.price === "number") ? listing.price.toLocaleString("en-US") : "Not Available"; %>
+                            Price: <%= formattedPrice %>&#36;
+                            <i>+18% GST = $<%= (1.18 * listing.price).toFixed(2) %></i>
+                    
+                        </p>
+                    </div>
+                </div>
+            </a> 
+        <%}%>
+    </div>
+</body>
+
+<script>
+    let taxswitch=document.getElementById("switchCheckDefault");
+    taxswitch.addEventListener("click",()=>{
+        let taxinfo=document.getElementsByClassName("hidden");
+        for(info of taxinfo){
+            if(info.style.display!="inline"){
+            info.style.display="inline";
+            }else{
+                info.style.display="none";
+            }
+        }
+    });
+</script>
